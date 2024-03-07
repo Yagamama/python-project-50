@@ -18,14 +18,14 @@ def generate_diff(file1, file2):
         else:
             result += f'  + {key}: {is_bool(f2[key])}\n'
     result += '}'
-    #print(result)
+    # print(result)
     return result
 
 
 def is_bool(string):
-    if string == True:
+    if string is True:
         return 'true'
-    elif string == False:
+    elif string is False:
         return 'false'
     else:
         return string
