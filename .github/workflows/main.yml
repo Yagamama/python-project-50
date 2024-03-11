@@ -19,10 +19,12 @@ jobs:
       - run: pip install -U pytest
       - run: poetry add -G dev pytest
       - run: make test
+      - run: poetry add pytest-cov
+      - run: make test_coverage
       - name: code coverage
-        uses: paambaati/codeclimate-action@v3.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        with:
-          coverageCommand: make test-coverage
-          debug: true
+        # uses: paambaati/codeclimate-action@v3.0.0
+        # env:
+        #   CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        # with:
+        #   coverageCommand: make test-coverage
+        #   debug: true

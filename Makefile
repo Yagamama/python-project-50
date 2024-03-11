@@ -20,6 +20,6 @@ test:
 	poetry run pytest -s
 
 test-coverage:
-		poetry run pytest --cov
+	poetry run pytest --cov
 
 .PHONY: gendiff
