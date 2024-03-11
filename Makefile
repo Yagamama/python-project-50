@@ -1,5 +1,5 @@
 install:
-	poetry install
+	pipx install poetry
 
 build:
 	poetry build
