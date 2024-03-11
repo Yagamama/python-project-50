@@ -5,9 +5,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: make install
+      - run: make build
+      - run: pip install flake8
+      - run: poetry add --group=dev flake8
       - run: make lint
   tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: make install
+      - run: make build
+      - run: poetry install pytest
+      - run: poetry add -G dev pytest
       - run: make test
