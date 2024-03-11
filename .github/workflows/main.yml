@@ -20,5 +20,5 @@ jobs:
       - run: poetry add -G dev pytest
       - run: make test
       - run: poetry add pytest-cov
-      - run: make test_coverage
+      - run: make test-coverage
     
