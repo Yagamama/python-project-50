@@ -1,5 +1,5 @@
 def files1_and_2():
-    return  '''{
+    return '''{
   - follow: false
     host: hexlet.io
   - proxy: 123.234.53.22
@@ -10,14 +10,9 @@ def files1_and_2():
 
 
 def files1_and_1():
-    return  '''{
+    return '''{
     follow: false
     host: hexlet.io
     proxy: 123.234.53.22
     timeout: 50
 }'''
-
-
-# if __name__ == '__main__':
-#     import sys
-#     print(sys.path)
