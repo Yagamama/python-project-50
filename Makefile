@@ -20,6 +20,6 @@ test:
 	poetry run pytest -s
 
 test-coverage:
-	poetry run pytest --cov=hexlet_python_package --cov-report xml
+	poetry run pytest --cov
 
 .PHONY: gendiff
