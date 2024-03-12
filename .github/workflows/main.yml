@@ -25,7 +25,7 @@ jobs:
       - run: make test-coverage
       - name: Generate the coverage report
         run: |
-          coverage run --source=test -m pytest
+          coverage run --source=tests -m pytest
           coverage xml -o coverage.xml 
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
