@@ -1,13 +1,22 @@
+import pytest
 from gendiff import generate_diff
 from pathlib import Path
 from ..fixtures import big_strings
 
 
-def test_generate_diff():
+@pytest.fixture
+def filepath():
     p = Path(__file__)
-    cur_dir = p.absolute().parent.parent.parent
-    file1 = cur_dir.joinpath('test_files/file1.json')
-    file2 = cur_dir.joinpath('test_files/file2.json')
+    files_dir = p.absolute().parent.parent.parent
+    return files_dir
 
-    assert generate_diff(file1, file2) == big_strings.files1_and_2()
-    assert generate_diff(file1, file1) == big_strings.files1_and_1()
+
+def test_generate_diff(filepath):
+    file1 = filepath.joinpath('test_files/file1.json')
+    file2 = filepath.joinpath('test_files/file2.json')
+
+    assert generate_diff(file1, file2, 'stylish') == big_strings.files1_and_2()
+    assert generate_diff(file1, file1, 'stylish') == big_strings.files1_and_1()
+
+    assert generate_diff(file1, file2, 'plain') == big_strings.f1_2_plain()
+    assert generate_diff(file1, file1, 'plain') == ''
