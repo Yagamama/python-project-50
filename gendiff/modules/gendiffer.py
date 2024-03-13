@@ -1,31 +1,8 @@
 import json
+from .parse_file import generate_big_string
 
 
-def generate_diff(file1, file2):
+def generate_diff(file1, file2, format):
     f1 = json.load(open(file1))
     f2 = json.load(open(file2))
-    keys_list = sorted(list((f1 | f2).keys()))
-    result = '{\n'
-    for key in keys_list:
-        if key in f1 and key in f2:
-            if f1[key] == f2[key]:
-                result += f'    {key}: {is_bool(f1[key])}\n'
-            else:
-                result += f'  - {key}: {is_bool(f1[key])}\n'
-                result += f'  + {key}: {is_bool(f2[key])}\n'
-        elif key not in f2:
-            result += f'  - {key}: {is_bool(f1[key])}\n'
-        else:
-            result += f'  + {key}: {is_bool(f2[key])}\n'
-    result += '}'
-    # print(result)
-    return result
-
-
-def is_bool(string):
-    if string is True:
-        return 'true'
-    elif string is False:
-        return 'false'
-    else:
-        return string
+    return generate_big_string(f1, f2, format)

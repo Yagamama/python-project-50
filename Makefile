@@ -11,7 +11,10 @@ package-install:
 	python3 -m pip install --user dist/*.whl --force-reinstall
 
 gendiff:
-	poetry run gendiff jsons/file1.json jsons/file2.json
+	poetry run gendiff test_files/file1.json test_files/file2.json
+
+gd_plain:
+	poetry run gendiff -f plain test_files/file1.json test_files/file2.json
 
 lint:
 	poetry run flake8 gendiff
