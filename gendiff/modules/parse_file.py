@@ -16,7 +16,7 @@ def generate_big_string(f1, f2, format):
     return result
 
 
-def edit_value(string, format):
+def edit_value(string, format='stylish'):
     if string is True:
         return 'true'
     elif string is False:
@@ -46,12 +46,12 @@ def stylish_or_plain(key, value, format, param):
     elif format == 'stylish':
         match param:
             case '=':
-                return f'    {key}: {edit_value(value, format)}\n'
+                return f'    {key}: {edit_value(value)}\n'
             case '+':
-                return f'  + {key}: {edit_value(value, format)}\n'
+                return f'  + {key}: {edit_value(value)}\n'
             case '-':
-                return f'  - {key}: {edit_value(value, format)}\n'
+                return f'  - {key}: {edit_value(value)}\n'
             case '>':
-                s = f'  - {key}: {edit_value(value[0], format)}\n'
-                s += f'  + {key}: {edit_value(value[1], format)}\n'
+                s = f'  - {key}: {edit_value(value[0])}\n'
+                s += f'  + {key}: {edit_value(value[1])}\n'
                 return s

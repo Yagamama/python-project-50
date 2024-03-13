@@ -8,10 +8,8 @@ from pathlib import Path
 
 def main():
     args = arguments()
-    p = Path(__file__)
-    cur_dir = p.absolute().parent.parent
-    print(generate_diff(cur_dir / args.first_file,
-                        cur_dir / args.second_file, args.format))
+    print(generate_diff(find_file(args.first_file),
+                        find_file(args.second_file), args.format))
     return
 
 
@@ -25,6 +23,20 @@ def arguments():
     parser.add_argument('-f', '--format', help='set format of output',
                         default='stylish')
     return parser.parse_args()
+
+
+def find_file(fname):
+    p = Path(__file__)
+    dir = p.absolute().parent
+    paths = ['', dir, dir.parent, dir.parent.parent]
+    for path in paths:
+        try:
+            open(path.joinpath(fname), 'r')
+            return path.joinpath(fname)
+        except Exception:
+            pass
+    print('wrong file path')
+    return
 
 
 if __name__ == '__main__':
