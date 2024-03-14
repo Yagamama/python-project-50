@@ -6,3 +6,5 @@
 <a href="https://codeclimate.com/github/Yagamama/python-project-49/test_coverage"><img src="https://api.codeclimate.com/v1/badges/b0d1a8541e86b4fab3fa/test_coverage" /></a>
 
 https://asciinema.org/a/FVVPkiqrDPxgQEFizHi15ILqI
+
+https://asciinema.org/a/ZoL1JQ1Doser6NKQ6ti2z9Dlm step 5
