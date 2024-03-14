@@ -31,3 +31,15 @@ def test_generate_diff_yaml(filepath):
 
     assert generate_diff(file1, file2, 'plain') == big_strings.yml3_4_plain()
     assert generate_diff(file1, file1, 'plain') == ''
+
+
+def test_trees(filepath):
+    file1 = filepath.joinpath('test_files/f1.json')
+    file2 = filepath.joinpath('test_files/f2.json')
+    file3 = filepath.joinpath('test_files/f1.yml')
+    file4 = filepath.joinpath('test_files/f2.yml')
+
+    assert generate_diff(file1, file2, 'stylish') == big_strings.tree_stylish()
+    assert generate_diff(file1, file2, 'plain') == big_strings.tree_plain()
+    assert generate_diff(file3, file4, 'stylish') == big_strings.tree_stylish()
+    assert generate_diff(file1, file4, 'plain') == big_strings.tree_plain()
