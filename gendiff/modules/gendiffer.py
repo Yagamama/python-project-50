@@ -1,5 +1,5 @@
 import json
-# import yaml
+import yaml
 from .parse_file import generate_big_string
 
 
@@ -16,7 +16,9 @@ def load_file(filename):
     if str(filename).endswith('.json'):
         return json.load(open(filename))
     elif str(filename).endswith('.yaml') or str(filename).endswith('.yml'):
-        return  # yaml.dump(yaml.load(filename, Loader=yaml.Loader))
+        with open(filename) as f:
+            res = yaml.load(f, Loader=yaml.Loader)
+        return res
     else:
         print('Wrong file type! Use .json/.yml/.yaml files!')
         return

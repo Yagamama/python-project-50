@@ -20,3 +20,14 @@ def test_generate_diff(filepath):
 
     assert generate_diff(file1, file2, 'plain') == big_strings.f1_2_plain()
     assert generate_diff(file1, file1, 'plain') == ''
+
+
+def test_generate_diff_yaml(filepath):
+    file1 = filepath.joinpath('test_files/file3.yaml')
+    file2 = filepath.joinpath('test_files/file4.yml')
+
+    assert generate_diff(file1, file2, 'stylish') == big_strings.yml3_4()
+    assert generate_diff(file2, file2, 'stylish') == big_strings.yml4_4()
+
+    assert generate_diff(file1, file2, 'plain') == big_strings.yml3_4_plain()
+    assert generate_diff(file1, file1, 'plain') == ''
