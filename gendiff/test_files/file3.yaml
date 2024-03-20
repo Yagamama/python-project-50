@@ -1,5 +1,5 @@
 race: orc
 health: 216
 level: 12
-attaks: ['bite', 'push']
+attak: bite
 clan: Grmr

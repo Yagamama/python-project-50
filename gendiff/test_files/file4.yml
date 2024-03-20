@@ -2,5 +2,5 @@ race: elf
 name: Oorin
 level: 12
 health: 188
-attaks: ['shot', 'iceball']
-healings: ['selfheal']
+attak: shot
+healing: selfheal

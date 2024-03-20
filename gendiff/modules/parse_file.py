@@ -1,57 +1,138 @@
-def generate_big_string(f1, f2, format):
-    keys_list = sorted(list((f1 | f2).keys()))
-    result = '{\n' if format == 'stylish' else ''
+# def compare_data(f1, f2):
+#     data1 = flat(f1)
+#     data2 = flat(f2, {}, '')
+#     keys_list = sorted(list((data1 | data2).keys()))
+#     result = {}
+#     for item in keys_list:
+#         if item in data1 and item in data2:
+#             if data1[item] == data2[item]:
+#                 result[item] = ['=']
+#                 result[item].append(data1[item])
+#             else:
+#                 result[item] = ['>']
+#                 result[item].append(data1[item])
+#                 result[item].append(data2[item])
+#         elif item not in data2:
+#             result[item] = ['-']
+#             result[item].append(data1[item])
+#         else:
+#             result[item] = ['+']
+#             result[item].append(data2[item])
+#     for key, value in result.items():
+#         print(key, ':', value)
+#     return result
+
+
+# def flat(data, result={}, bigkey=''):
+#     if not isinstance(data, dict):
+#         result[bigkey] = data
+#         return result
+#     for key, value in data.items():
+#         flat(value, result, bigkey + '.' + str(key) if bigkey else str(key))
+#     return result
+
+
+def compare_data(f1, f2):
+    keys_list = f1.keys() | f2.keys()
+    added = f2.keys() - f1.keys()
+    deleted = f1.keys() - f2.keys()
+    result = []
+
     for key in keys_list:
-        if key in f1 and key in f2:
-            if f1[key] == f2[key]:
-                result += stylish_or_plain(key, f1[key], format, param='=')
-            else:
-                result += stylish_or_plain(
-                    key, [f1[key], f2[key]], format, param='>')
-        elif key not in f2:
-            result += stylish_or_plain(key, f1[key], format, param='-')
+        if key in added:
+            result.append({'name': key,
+                           'action': '+',
+                           'value': f2.get(key)})
+        elif key in deleted:
+            result.append({'name': key,
+                           'action': '-',
+                           'value': f1.get(key)})
+        elif isinstance(f1.get(key), dict) and isinstance(f2.get(key), dict):
+            result.append({'name': key,
+                           'action': 'inner',
+                           'value': compare_data(f1.get(key), f2.get(key))})
+        elif f1.get(key) == f2.get(key):
+            result.append({'name': key,
+                           'action': '=',
+                           'value': f1.get(key)})
         else:
-            result += stylish_or_plain(key, f2[key], format, param='+')
-    result += '}' if format == 'stylish' else ''
+            result.append({'name': key,
+                           'action': '>',
+                           'value': f1.get(key),
+                           'value2': f2.get(key)})
+
+        result = sorted(result, key=lambda x: x['name'])
     return result
 
 
-def edit_value(string, format='stylish'):
-    if string is True:
-        return 'true'
-    elif string is False:
-        return 'false'
+def generate_big_string(data, format):
+    if format == 'stylish':
+        return stylish_string(data) + '}'
+    else:
+        return plain_string(data)
+
+
+def stylish_string(data, result='{\n', spaces="  "):
+    for item in data:
+        key = item.get('name')
+        edit = edit_value(item["value"], sp=spaces)
+        edit2 = edit_value(item.get('value2'), sp=spaces)
+        match item['action']:
+            case '=':
+                result += f'{spaces}  {key}: {edit}\n'
+            case '+':
+                result += f'{spaces}+ {key}: {edit}\n'
+            case '-':
+                result += f'{spaces}- {key}: {edit}\n'
+            case '>':
+                result += f'{spaces}- {key}: {edit}\n'
+                result += f'{spaces}+ {key}: {edit2}\n'
+            case 'inner':
+                result += f'{spaces}  {key}: ' + '{\n'
+                result = stylish_string(item['value'], result, spaces + "    ")
+                result += spaces + "  }\n"
+        # print(result)
+    return result
+
+
+def plain_string(data, param=''):
+    result = ''
+    for item in data:
+        key = item['name']
+        if param:
+            key = param + '.' + key
+        match item['action']:
+            case '+':
+                result += f"Property '{key}' was added with "
+                result += f"value: {edit_value(item['value'], 'plain')}\n"
+            case '-':
+                result += f"Property '{key}' was removed\n"
+            case '>':
+                result += f"Property '{key}' was updated. From "
+                result += f"{edit_value(item['value'], 'plain')} "
+                result += f"to {edit_value(item['value2'], 'plain')}\n"
+            case 'inner':
+                result += plain_string(item['value'], key)
+    return result
+
+
+def edit_value(string, format='stylish', sp=''):
+    if isinstance(string, bool):
+        return str(string).lower()
     elif isinstance(string, str) and format == 'plain':
         return f"'{string}'"
+    elif string is None:
+        return 'null'
+    elif isinstance(string, list):
+        edit_value(string[0], format, sp)
+    elif isinstance(string, dict):
+        if format == 'plain':
+            return '[complex value]'
+        else:
+            r = ''
+            for key, value in string.items():
+                val = edit_value(value, sp=sp + "    ")
+                r += f'    {sp}  {key}: {val}\n'
+            return '{' + f'\n{r}{sp}' + '  }'
     else:
         return string
-
-
-def stylish_or_plain(key, value, format, param):
-    if format == 'plain':
-        match param:
-            case '=':
-                return ''
-            case '+':
-                s = f"Property '{key}' was added with "
-                s += f"value: {edit_value(value, format)}\n"
-                return s
-            case '-':
-                return f"Property '{key}' was removed\n"
-            case '>':
-                s = f"Property '{key}' was updated. From "
-                s += f"{edit_value(value[0], format)} "
-                s += f"to {edit_value(value[1], format)}\n"
-                return s
-    elif format == 'stylish':
-        match param:
-            case '=':
-                return f'    {key}: {edit_value(value)}\n'
-            case '+':
-                return f'  + {key}: {edit_value(value)}\n'
-            case '-':
-                return f'  - {key}: {edit_value(value)}\n'
-            case '>':
-                s = f'  - {key}: {edit_value(value[0])}\n'
-                s += f'  + {key}: {edit_value(value[1])}\n'
-                return s

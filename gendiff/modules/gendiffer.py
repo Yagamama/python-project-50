@@ -1,6 +1,6 @@
 import json
 import yaml
-from .parse_file import generate_big_string
+from .parse_file import generate_big_string, compare_data
 
 
 def generate_diff(file1, file2, format):
@@ -9,7 +9,8 @@ def generate_diff(file1, file2, format):
         return
     f1 = load_file(file1)
     f2 = load_file(file2)
-    return generate_big_string(f1, f2, format)
+    data = compare_data(f1, f2)
+    return generate_big_string(data, format)
 
 
 def load_file(filename):
