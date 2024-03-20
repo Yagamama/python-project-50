@@ -4,7 +4,7 @@ from .parse_file import generate_big_string, compare_data
 
 
 def generate_diff(file1, file2, format):
-    if format not in ['stylish', 'plain']:
+    if format not in ['stylish', 'plain', 'json']:
         print('Wrong format! Use --help for info.')
         return
     f1 = load_file(file1)

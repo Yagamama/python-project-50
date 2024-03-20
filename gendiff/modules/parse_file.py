@@ -1,35 +1,4 @@
-# def compare_data(f1, f2):
-#     data1 = flat(f1)
-#     data2 = flat(f2, {}, '')
-#     keys_list = sorted(list((data1 | data2).keys()))
-#     result = {}
-#     for item in keys_list:
-#         if item in data1 and item in data2:
-#             if data1[item] == data2[item]:
-#                 result[item] = ['=']
-#                 result[item].append(data1[item])
-#             else:
-#                 result[item] = ['>']
-#                 result[item].append(data1[item])
-#                 result[item].append(data2[item])
-#         elif item not in data2:
-#             result[item] = ['-']
-#             result[item].append(data1[item])
-#         else:
-#             result[item] = ['+']
-#             result[item].append(data2[item])
-#     for key, value in result.items():
-#         print(key, ':', value)
-#     return result
-
-
-# def flat(data, result={}, bigkey=''):
-#     if not isinstance(data, dict):
-#         result[bigkey] = data
-#         return result
-#     for key, value in data.items():
-#         flat(value, result, bigkey + '.' + str(key) if bigkey else str(key))
-#     return result
+import json
 
 
 def compare_data(f1, f2):
@@ -68,6 +37,8 @@ def compare_data(f1, f2):
 def generate_big_string(data, format):
     if format == 'stylish':
         return stylish_string(data) + '}'
+    elif format == 'json':
+        return parse_json(data)
     else:
         return plain_string(data)
 
@@ -136,3 +107,7 @@ def edit_value(string, format='stylish', sp=''):
             return '{' + f'\n{r}{sp}' + '  }'
     else:
         return string
+
+
+def parse_json(data):
+    return json.dumps(data[0], sort_keys=True, indent=4)

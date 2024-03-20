@@ -21,7 +21,7 @@ def arguments():
     parser.add_argument('-V', '--version', action='version',
                         help='output the version number', version='0.2.0')
     parser.add_argument('-f', '--format', 
-                        help='set format of output: stylish or plain',
+                        help='set format of output: stylish, plain, json',
                         default='stylish')
     return parser.parse_args()
 
