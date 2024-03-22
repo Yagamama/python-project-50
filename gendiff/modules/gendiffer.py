@@ -3,7 +3,7 @@ import yaml
 from .parse_file import generate_big_string, compare_data
 
 
-def generate_diff(file1, file2, format):
+def generate_diff(file1, file2, format='stylish'):
     if format not in ['stylish', 'plain', 'json']:
         print('Wrong format! Use --help for info.')
         return
