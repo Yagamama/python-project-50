@@ -42,7 +42,7 @@ def generate_big_string(data, format):
     elif format == 'json':
         return parse_json(data)
     else:
-        return plain_string(data)
+        return plain_string(data).rstrip()
 
 
 def parse_json(data):
