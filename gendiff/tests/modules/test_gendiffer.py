@@ -2,6 +2,8 @@ import pytest
 from gendiff import generate_diff
 from pathlib import Path
 from ..fixtures import big_strings
+from ...modules.plain import edit_plain_value
+from ...modules.stylish import edit_value
 
 
 @pytest.fixture
@@ -43,3 +45,22 @@ def test_trees(filepath):
     assert generate_diff(file1, file2, 'plain') == big_strings.tree_plain()
     assert generate_diff(file3, file4, 'stylish') == big_strings.tree_stylish()
     assert generate_diff(file1, file4, 'plain') == big_strings.tree_plain()
+
+
+def test_edit_value():
+    assert edit_value(55) == 55
+    assert edit_value(False) == 'false'
+    assert edit_value('str') == 'str'
+    assert edit_value(None) == 'null'
+    assert edit_value([77]) == 77
+    res = '{\n      a: 1\n      b: {\n          c: 3\n      }\n  }'
+    assert edit_value({'a': 1, 'b': {'c': 3}}) == res
+
+
+def test_edit_plain_value():
+    assert edit_plain_value(55) == 55
+    assert edit_plain_value(False) == 'false'
+    assert edit_plain_value('str') == "'str'"
+    assert edit_plain_value(None) == 'null'
+    assert edit_plain_value([77]) == 77
+    assert edit_plain_value({'a': 1, 'b': {'c': 3}}) == '[complex value]'
