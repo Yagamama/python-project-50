@@ -24,8 +24,7 @@ def f1_2_plain():
 Property 'hostess' was added with value: 'mrs. Bar'
 Property 'proxy' was removed
 Property 'timeout' was updated. From 50 to 20
-Property 'verbose' was added with value: true
-'''
+Property 'verbose' was added with value: true'''
 
 
 def yml3_4():
@@ -55,13 +54,12 @@ def yml4_4():
 
 
 def yml3_4_plain():
-    return '''Property 'attak' was updated. From 'bite' to 'shot'
+    return """Property 'attak' was updated. From 'bite' to 'shot'
 Property 'clan' was removed
 Property 'healing' was added with value: 'selfheal'
 Property 'health' was updated. From 216 to 188
 Property 'name' was added with value: 'Oorin'
-Property 'race' was updated. From 'orc' to 'elf'
-'''
+Property 'race' was updated. From 'orc' to 'elf'"""
 
 
 def tree_stylish():
@@ -78,7 +76,7 @@ def tree_stylish():
         }
         setting6: {
             doge: {
-              - wow: 
+              - wow:''' + " " + '''
               + wow: so much
             }
             key: value
@@ -122,5 +120,4 @@ Property 'common.setting6.ops' was added with value: 'vops'
 Property 'group1.baz' was updated. From 'bas' to 'bars'
 Property 'group1.nest' was updated. From [complex value] to 'str'
 Property 'group2' was removed
-Property 'group3' was added with value: [complex value]
-'''
+Property 'group3' was added with value: [complex value]'''

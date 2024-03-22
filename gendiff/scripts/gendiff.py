@@ -20,7 +20,7 @@ def arguments():
     parser.add_argument('second_file')
     parser.add_argument('-V', '--version', action='version',
                         help='output the version number', version='0.2.0')
-    parser.add_argument('-f', '--format', 
+    parser.add_argument('-f', '--format',
                         help='set format of output: stylish, plain, json',
                         default='stylish')
     return parser.parse_args()
@@ -29,7 +29,7 @@ def arguments():
 def find_file(fname):
     p = Path(__file__)
     dir = p.absolute().parent
-    paths = ['', dir, dir.parent, dir.parent.parent, 
+    paths = ['', dir, dir.parent, dir.parent.parent,
              dir.parent.joinpath('test_files')]
     for path in paths:
         try:
